@@ -2,7 +2,7 @@ import debug, { Debugger } from 'debug'
 import * as Puppeteer from './puppeteer'
 
 /** @private */
-const merge = require('deepmerge')
+const { deepmerge } = require('deepmerge-ts')
 
 export interface PluginOptions {
   [key: string]: any
@@ -74,7 +74,7 @@ export abstract class PuppeteerExtraPlugin {
     this._debugBase = debug(`puppeteer-extra-plugin:base:${this.name}`)
     this._childClassMembers = []
 
-    this._opts = merge(this.defaults, opts || {})
+    this._opts = deepmerge(this.defaults, opts || {})
 
     this._debugBase('Initialized.')
   }
@@ -461,7 +461,7 @@ export abstract class PuppeteerExtraPlugin {
   _getMissingDependencies(plugins: any) {
     const pluginNames = new Set(plugins.map((p: any) => p.name))
     const missing = new Set(
-      Array.from(this.dependencies.values()).filter(x => !pluginNames.has(x))
+      Array.from(this.dependencies.values()).filter((x) => !pluginNames.has(x))
     )
     return missing
   }
