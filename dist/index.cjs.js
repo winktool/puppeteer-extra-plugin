@@ -12,7 +12,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var debug = _interopDefault(require('debug'));
 
 /** @private */
-const merge = require('deepmerge');
+const { deepmerge } = require('deepmerge-ts');
 /**
  * Base class for `puppeteer-extra` plugins.
  *
@@ -58,7 +58,7 @@ class PuppeteerExtraPlugin {
     constructor(opts) {
         this._debugBase = debug(`puppeteer-extra-plugin:base:${this.name}`);
         this._childClassMembers = [];
-        this._opts = merge(this.defaults, opts || {});
+        this._opts = deepmerge(this.defaults, opts || {});
         this._debugBase('Initialized.');
     }
     /**
@@ -419,7 +419,7 @@ class PuppeteerExtraPlugin {
      */
     _getMissingDependencies(plugins) {
         const pluginNames = new Set(plugins.map((p) => p.name));
-        const missing = new Set(Array.from(this.dependencies.values()).filter(x => !pluginNames.has(x)));
+        const missing = new Set(Array.from(this.dependencies.values()).filter((x) => !pluginNames.has(x)));
         return missing;
     }
     /**
